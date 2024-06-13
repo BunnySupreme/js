@@ -66,6 +66,12 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(4);
   });
 
+  it("should set quality of Backstage passes to 0, if concert over", function() {
+    items = [ new Item("Backstage passes to a TAFKAL80ETC concert", -1, 10) ];
+    update_quality();
+    expect(items[0].quality).toEqual(0);
+  });
+
   it("should degrade Conjured items twice as fast", function() {
     items = [ new Item("Conjured Mana Cake", 10, 10) ];
     update_quality();
