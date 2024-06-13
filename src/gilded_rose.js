@@ -16,56 +16,68 @@ items.push(new Item('Conjured Mana Cake', 3, 6));
 function update_quality() {
   items.forEach(item => {
 
-    let agedBrie = 'Aged Brie'
-    let backstagePasses = 'Backstage passes to a TAFKAL80ETC concert'
-    let sulfuras = 'Sulfuras, Hand of Ragnaros'
-    let conjured = 'Conjured Mana Cake'
     let qualityChange = -1
     let sellInChange = -1
     let qualityMax = 50
-    let degradationMultiplierAfterSellBy = 2
-    let conjuredDegradationMultiplier = 2
-    let backstagePassesCalc = {
+    let degradationMultiplierAfterExpired = 2
+
+    let agedBrie = {
+      name: 'Aged Brie',
+      qualityChange: 1
+    }
+    let sulfuras = {
+      name: 'Sulfuras, Hand of Ragnaros',
+      qualityChange: 0,
+      sellInChange: 0
+    }
+    let conjured = {
+      name: 'Conjured Mana Cake',
+      degradationMultiplier: 2
+    }
+    let backstagePasses = {
+      name: 'Backstage passes to a TAFKAL80ETC concert',
+      defaultQualityChange: 1,
       sell_in: [5, 10],
       qualityIncrease: [3, 2]
     }
 
     switch (item.name){
-      case agedBrie:
-        qualityChange = 1
+      case agedBrie.name:
+        qualityChange = agedBrie.qualityChange
         break;
-      case backstagePasses:
-        qualityChange = 1
+      case backstagePasses.name:
+        qualityChange = backstagePasses.defaultQualityChange
         if (item.sell_in <= 1){
           item.quality = 0
           qualityChange = 0
           break
         }
-        for (let i = 0; i<backstagePassesCalc.sell_in.length; i++){
-          if (item.sell_in <= backstagePassesCalc.sell_in[i]){
-            qualityChange = backstagePassesCalc.qualityIncrease[i]
+        for (let i = 0; i<backstagePasses.sell_in.length; i++){
+          if (item.sell_in <= backstagePasses.sell_in[i]){
+            qualityChange = backstagePasses.qualityIncrease[i]
             break
           }
         }
         break;
-      case sulfuras:
-        qualityChange = 0
-        sellInChange = 0
+      case sulfuras.name:
+        qualityChange = sulfuras.qualityChange
+        sellInChange = sulfuras.sellInChange
         break;
-      case conjured:
-        qualityChange *= conjuredDegradationMultiplier
+      case conjured.name:
+        qualityChange *= conjured.degradationMultiplier
         break
       default:
-        if (item.sell_in <= 1){
-          qualityChange *= degradationMultiplierAfterSellBy
+        if (item.sell_in - sellInChange <= 0){
+          qualityChange *= degradationMultiplierAfterExpired
         }
     }
+    
     item.sell_in += sellInChange
     item.quality += qualityChange
     if (item.quality < 0){
       item.quality = 0
     }
-    if (item.quality > 50 && qualityChange > 0){
+    if (item.quality > qualityMax && qualityChange > 0){
       item.quality = qualityMax
     }
 
