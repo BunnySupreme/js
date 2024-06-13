@@ -47,7 +47,7 @@ function update_quality() {
         break;
       case item.name.startsWith(backstage_passes.name):
         quality_change = backstage_passes.default_quality_change
-        if (item.sell_in <= 1){
+        if (item.sell_in - sell_in_change <= 0){
           item.quality = 0
           quality_change = 0
           break
