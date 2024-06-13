@@ -12,4 +12,10 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(0);
   });
 
+  it("degrade quality twice as fast, once sell by date has passed", function() {
+    items = [ new Item("expiredItem", -1, 4) ];
+    update_quality();
+    expect(items[0].quality).toEqual(2);
+  });
+
 });
