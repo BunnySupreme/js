@@ -61,11 +61,11 @@ update_quality();
     -> items[0].quality === 0
 
 13. Conjured items degrade in quality twice as fast
-items = [ new Item("Conjured Mana Cake", -1, 10) ];
+items = [ new Item("Conjured Mana Cake", 10, 10) ];
 update_quality();
     -> items[0].quality === 8
 
 14. Other Conjured items also work
-items = [ new Item("Conjured Mead", -1, 10) ];
+items = [ new Item("Conjured Mead", 10, 10) ];
 update_quality();
     -> items[0].quality === 8
