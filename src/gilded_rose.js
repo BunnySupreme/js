@@ -27,7 +27,6 @@ function update_quality() {
       daysLeft: [10, 5],
       qualityIncrease: [2, 3]
     }
-  
 
 
     switch (item.name){
@@ -77,5 +76,12 @@ function update_quality() {
         }
       }
     }
+
+  if (backstagePasses && item.sell_in < 0)
+  {
+    item.quality = 0
+  }
+  
   })
+  
 }
