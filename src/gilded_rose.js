@@ -24,7 +24,7 @@ function update_quality() {
     qualityChange: 1
   }
   let sulfuras = {
-    name: 'Sulfuras, Hand of Ragnaros',
+    name: 'Sulfuras',
     qualityChange: 0,
     sellInChange: 0
   }
@@ -33,7 +33,7 @@ function update_quality() {
     degradationMultiplier: 2
   }
   let backstagePasses = {
-      name: 'Backstage passes to a TAFKAL80ETC concert',
+      name: 'Backstage passes',
       defaultQualityChange: 1,
       sell_in: [5, 10],
       qualityIncrease: [3, 2]
