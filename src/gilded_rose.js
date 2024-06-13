@@ -19,10 +19,12 @@ function update_quality() {
     let agedBrie = 'Aged Brie'
     let backstagePasses = 'Backstage passes to a TAFKAL80ETC concert'
     let sulfuras = 'Sulfuras, Hand of Ragnaros'
+    let conjured = 'Conjured Mana Cake'
     let qualityChange = -1
     let sellInChange = -1
     let qualityMax = 50
     let degradationMultiplierAfterSellBy = 2
+    let conjuredDegradationMultiplier = 2
     let backstagePassesCalc = {
       sell_in: [5, 10],
       qualityIncrease: [3, 2]
@@ -50,7 +52,9 @@ function update_quality() {
         qualityChange = 0
         sellInChange = 0
         break;
-      
+      case conjured:
+        qualityChange *= conjuredDegradationMultiplier
+        break
       default:
         if (item.sell_in <= 1){
           qualityChange *= degradationMultiplierAfterSellBy
