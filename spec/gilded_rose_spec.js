@@ -66,4 +66,10 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(4);
   });
 
+  it("should degrade Conjured items twice as fast", function() {
+    items = [ new Item("Conjured Mana Cake", 10, 10) ];
+    update_quality();
+    expect(items[0].quality).toEqual(8);
+  });
+
 });
