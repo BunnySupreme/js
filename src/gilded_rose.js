@@ -18,7 +18,7 @@ function update_quality() {
   let sell_in_change = -1
   let quality_max = 50
   let degradation_multiplier_after_expired = 2
-
+  
   let aged_brie = {
     name: 'Aged Brie',
     quality_change: 1
@@ -40,7 +40,6 @@ function update_quality() {
   }
   
   items.forEach(item => {
-
     switch (true){
       case item.name.startsWith(aged_brie.name):
         quality_change = aged_brie.quality_change
@@ -80,8 +79,5 @@ function update_quality() {
     if (item.quality > quality_max && quality_change > 0){
       item.quality = quality_max
     }
-
-  
   })
-  
 }
