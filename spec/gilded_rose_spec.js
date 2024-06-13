@@ -78,4 +78,10 @@ describe("Gilded Rose", function() {
     expect(items[0].quality).toEqual(8);
   });
 
+  it("should degrade other conjured items as well", function() {
+    items = [ new Item("Conjured Mead", 10, 10) ];
+    update_quality();
+    expect(items[0].quality).toEqual(8);
+  });
+
 });
