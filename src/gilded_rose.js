@@ -14,71 +14,71 @@ items.push(new Item('Backstage passes to a TAFKAL80ETC concert', 15, 20));
 items.push(new Item('Conjured Mana Cake', 3, 6));
 
 function update_quality() {
-  let qualityChange = -1
-  let sellInChange = -1
-  let qualityMax = 50
-  let degradationMultiplierAfterExpired = 2
+  let quality_change = -1
+  let sell_in_change = -1
+  let quality_max = 50
+  let degradation_multiplier_after_expired = 2
 
-  let agedBrie = {
+  let aged_brie = {
     name: 'Aged Brie',
-    qualityChange: 1
+    quality_change: 1
   }
   let sulfuras = {
     name: 'Sulfuras',
-    qualityChange: 0,
-    sellInChange: 0
+    quality_change: 0,
+    sell_in_change: 0
   }
   let conjured = {
     name: 'Conjured',
-    degradationMultiplier: 2
+    degradation_multiplier: 2
   }
-  let backstagePasses = {
+  let backstage_passes = {
       name: 'Backstage passes',
-      defaultQualityChange: 1,
+      default_quality_change: 1,
       sell_in: [5, 10],
-      qualityIncrease: [3, 2]
+      quality_change: [3, 2]
   }
   
   items.forEach(item => {
 
     switch (true){
-      case item.name.startsWith(agedBrie.name):
-        qualityChange = agedBrie.qualityChange
+      case item.name.startsWith(aged_brie.name):
+        quality_change = aged_brie.quality_change
         break;
-      case item.name.startsWith(backstagePasses.name):
-        qualityChange = backstagePasses.defaultQualityChange
+      case item.name.startsWith(backstage_passes.name):
+        quality_change = backstage_passes.default_quality_change
         if (item.sell_in <= 1){
           item.quality = 0
-          qualityChange = 0
+          quality_change = 0
           break
         }
-        for (let i = 0; i<backstagePasses.sell_in.length; i++){
-          if (item.sell_in <= backstagePasses.sell_in[i]){
-            qualityChange = backstagePasses.qualityIncrease[i]
+        for (let i = 0; i<backstage_passes.sell_in.length; i++){
+          if (item.sell_in <= backstage_passes.sell_in[i]){
+            quality_change = backstage_passes.quality_change[i]
             break
           }
         }
         break;
       case item.name.startsWith(sulfuras.name):
-        qualityChange = sulfuras.qualityChange
-        sellInChange = sulfuras.sellInChange
+        quality_change = sulfuras.quality_change
+        sell_in_change = sulfuras.sell_in_change
         break;
       case item.name.startsWith(conjured.name):
-        qualityChange *= conjured.degradationMultiplier
+        quality_change *= conjured.degradation_multiplier
         break
       default:
-        if (item.sell_in - sellInChange <= 0){
-          qualityChange *= degradationMultiplierAfterExpired
+        if (item.sell_in - sell_in_change <= 0){
+          quality_change *= degradation_multiplier_after_expired
         }
     }
 
-    item.sell_in += sellInChange
-    item.quality += qualityChange
+    item.sell_in += sell_in_change
+    item.quality += quality_change
     if (item.quality < 0){
       item.quality = 0
     }
-    if (item.quality > qualityMax && qualityChange > 0){
-      item.quality = qualityMax
+    if (item.quality > quality_max && quality_change > 0){
+      item.quality = quality_max
     }
 
   
