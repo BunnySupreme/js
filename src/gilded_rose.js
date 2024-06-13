@@ -15,72 +15,56 @@ items.push(new Item('Conjured Mana Cake', 3, 6));
 
 function update_quality() {
   items.forEach(item => {
-    let agedBrie = false
-    let backstagePasses = false
-    let sulfuras = false
-    let normalItem = true
-    let agedBrieName = 'Aged Brie'
-    let backstagePassesName = 'Backstage passes to a TAFKAL80ETC concert'
-    let sulfurasName = 'Sulfuras, Hand of Ragnaros'
-    let qualityMax = 50
-    let backstagePassesCalc = {
-      daysLeft: [10, 5],
-      qualityIncrease: [2, 3]
-    }
 
+    let agedBrie = 'Aged Brie'
+    let backstagePasses = 'Backstage passes to a TAFKAL80ETC concert'
+    let sulfuras = 'Sulfuras, Hand of Ragnaros'
+    let qualityChange = -1
+    let sellInChange = -1
+    let qualityMax = 50
+    let degradationMultiplierAfterSellBy = 2
+    let backstagePassesCalc = {
+      sell_in: [5, 10],
+      qualityIncrease: [3, 2]
+    }
 
     switch (item.name){
-      case agedBrieName:
-        agedBrie = true 
+      case agedBrie:
+        qualityChange = 1
         break;
-      case backstagePassesName:
-        backstagePasses = true
-        break;
-      case sulfurasName:
-        sulfuras = true
-        break;
-    }
-
-    if (agedBrie || backstagePasses || sulfuras){
-      normalItem = false
-    }
-
-    //lower quality
-    if (normalItem) {
-      if (item.quality > 0) {
-        item.quality--
-      }
-    } 
-    
-    else {
-      if (item.quality < qualityMax) {
-        item.quality++
-        if (backstagePasses) {
-          backstagePassesCalc.daysLeft.forEach(day => {
-            if (item.sell_in <= day){
-              item.quality++
-            }
-          })
+      case backstagePasses:
+        qualityChange = 1
+        if (item.sell_in <= 1){
+          item.quality = 0
+          qualityChange = 0
+          break
         }
-      }
-    }
-    if (!sulfuras) {
-      item.sell_in--;
-    }
-    if (item.sell_in < 0 && item.quality > 0) {
-      if (normalItem) {
-          item.quality--
-      } else {
-        if (item.quality < qualityMax) {
-          item.quality++
+        for (let i = 0; i<backstagePassesCalc.sell_in.length; i++){
+          if (item.sell_in <= backstagePassesCalc.sell_in[i]){
+            qualityChange = backstagePassesCalc.qualityIncrease[i]
+            break
+          }
         }
-      }
+        break;
+      case sulfuras:
+        qualityChange = 0
+        sellInChange = 0
+        break;
+      
+      default:
+        if (item.sell_in <= 1){
+          qualityChange *= degradationMultiplierAfterSellBy
+        }
+    }
+    item.sell_in += sellInChange
+    item.quality += qualityChange
+    if (item.quality < 0){
+      item.quality = 0
+    }
+    if (item.quality > 50 && qualityChange > 0){
+      item.quality = qualityMax
     }
 
-  if (backstagePasses && item.sell_in < 0)
-  {
-    item.quality = 0
-  }
   
   })
   
